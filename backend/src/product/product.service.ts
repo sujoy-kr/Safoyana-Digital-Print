@@ -61,6 +61,7 @@ export class ProductService {
     updateProductDto: UpdateProductDto,
   ): Promise<Product> {
     try {
+      console.log(updateProductDto);
       return await this.prismaService.product.update({
         where: { id },
         data: updateProductDto as unknown as Prisma.ProductUpdateInput,
@@ -68,9 +69,7 @@ export class ProductService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
-          throw new NotFoundException(
-            `Cannot update: Product with ID '${id}' not found`,
-          );
+          throw new NotFoundException(`Cannot update: Product not found`);
         }
         if (error.code === 'P2003') {
           throw new BadRequestException(`Category ID does not exist.`);
@@ -92,9 +91,7 @@ export class ProductService {
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2025'
       ) {
-        throw new NotFoundException(
-          `Cannot delete: Product with ID '${id}' not found`,
-        );
+        throw new NotFoundException(`Cannot delete: Product not found`);
       }
       throw error;
     }
