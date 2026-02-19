@@ -14,4 +14,4 @@ import { CategoryModule } from './category/category.module';
     CategoryModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }

@@ -15,7 +15,7 @@ type ProductWithCategory = Prisma.ProductGetPayload<{
 
 @Injectable()
 export class ProductService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(private prismaService: PrismaService) { }
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
     try {
@@ -61,7 +61,6 @@ export class ProductService {
     updateProductDto: UpdateProductDto,
   ): Promise<Product> {
     try {
-      console.log(updateProductDto);
       return await this.prismaService.product.update({
         where: { id },
         data: updateProductDto as unknown as Prisma.ProductUpdateInput,
