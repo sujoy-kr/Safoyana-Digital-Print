@@ -18,7 +18,7 @@ export class AuthService {
     private prismaService: PrismaService,
     private jwt: JwtService,
     private config: ConfigService,
-  ) {}
+  ) { }
 
   async register(dto: RegisterDto) {
     const saltRound = Number(this.config.get<string>('SALT_ROUNDS')) || 10;
@@ -51,40 +51,29 @@ export class AuthService {
 
   async login(dto: LoginDto) {
     const user = await this.prismaService.user.findUnique({
-      where: {
-        email: dto.email,
-      },
+      where: { email: dto.email },
     });
 
-    if (!user) {
-      throw new ForbiddenException('Invalid credentials');
-    }
+    if (!user) throw new ForbiddenException('Invalid credentials');
 
     const isPasswordValid = await bcrypt.compare(dto.password, user.hash);
+    if (!isPasswordValid) throw new ForbiddenException('Invalid credentials');
 
-    if (!isPasswordValid) {
-      throw new ForbiddenException('Invalid credentials');
-    }
-
-    return this.signToken(user.id, user.email);
+    return this.signToken(user.id, user.email, user.role);
   }
 
-  async signToken(userId: number, email: string): Promise<{ token: string }> {
+  async signToken(userId: number, email: string, role: string): Promise<{ token: string }> {
     const payload: JwtPayload = {
       id: userId,
       email,
+      role,
     };
 
     const secret = this.config.get<string>('JWT_SECRET');
-
-    if (!secret) {
-      throw new Error('JWT_SECRET is not defined in environment variables');
-    }
+    if (!secret) throw new Error('JWT_SECRET is not defined in environment variables');
 
     try {
-      const token = await this.jwt.signAsync(payload, {
-        secret,
-      });
+      const token = await this.jwt.signAsync(payload, { secret });
       return { token };
     } catch {
       throw new InternalServerErrorException('Failed to generate token');
