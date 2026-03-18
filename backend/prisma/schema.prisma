@@ -12,6 +12,8 @@ model User {
   name  String
   hash  String
   role  Role   @default(USER)
+
+  orders Order[]
 }
 
 enum Role {
@@ -41,4 +43,38 @@ model Product {
   attributes Json
   category   Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
+
+  orderItems OrderItem[]
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  userId      Int
+  user        User        @relation(fields: [userId], references: [id])
+  status      OrderStatus @default(PENDING)
+  totalAmount Decimal
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items OrderItem[]
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Decimal
+
+  customConfig Json?
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  CANCELLED
 }

@@ -18,7 +18,7 @@ export class AuthService {
     private prismaService: PrismaService,
     private jwt: JwtService,
     private config: ConfigService,
-  ) { }
+  ) {}
 
   async register(dto: RegisterDto) {
     const saltRound = Number(this.config.get<string>('SALT_ROUNDS')) || 10;
@@ -27,7 +27,7 @@ export class AuthService {
     const hash = await bcrypt.hash(dto.password, salt);
 
     try {
-      await this.prismaService.user.create({
+      const newUser = await this.prismaService.user.create({
         data: {
           email: dto.email,
           name: dto.name,
@@ -35,10 +35,7 @@ export class AuthService {
         },
       });
 
-      return {
-        success: true,
-        message: 'User registered successfully',
-      };
+      return this.signToken(newUser.id, newUser.email, newUser.role);
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -62,7 +59,11 @@ export class AuthService {
     return this.signToken(user.id, user.email, user.role);
   }
 
-  async signToken(userId: number, email: string, role: string): Promise<{ token: string }> {
+  async signToken(
+    userId: number,
+    email: string,
+    role: string,
+  ): Promise<{ access_token: string; role: string }> {
     const payload: JwtPayload = {
       id: userId,
       email,
@@ -70,11 +71,12 @@ export class AuthService {
     };
 
     const secret = this.config.get<string>('JWT_SECRET');
-    if (!secret) throw new Error('JWT_SECRET is not defined in environment variables');
+    if (!secret)
+      throw new Error('JWT_SECRET is not defined in environment variables');
 
     try {
       const token = await this.jwt.signAsync(payload, { secret });
-      return { token };
+      return { access_token: token, role };
     } catch {
       throw new InternalServerErrorException('Failed to generate token');
     }
