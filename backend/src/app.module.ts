@@ -4,6 +4,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
+import { UserModule } from './user/user.module.js';
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { OrderModule } from './order/order.module';
@@ -18,6 +19,7 @@ import { UploadModule } from './upload/upload.module';
     }),
     PrismaModule,
     AuthModule,
+    UserModule,
     ProductModule,
     CategoryModule,
     OrderModule,

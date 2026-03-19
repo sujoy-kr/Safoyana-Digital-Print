@@ -101,7 +101,7 @@ export default function AdminOrdersPage() {
                                         </div>
                                     )}
                                 </td>
-                                <td className="font-bold">${Number(order.totalAmount).toFixed(2)}</td>
+                                <td className="font-bold">€{Number(order.totalAmount).toFixed(2)}</td>
                                 <td>{getStatusBadge(order.status)}</td>
                                 <td className="text-right">
                                     <div className="flex gap-2 justify-end">

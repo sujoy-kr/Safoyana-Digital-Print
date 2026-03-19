@@ -9,7 +9,7 @@ export default function UserLayout({
     return (
         <>
             <UserNavbar />
-            <main className="main-content animate-fade-in">
+            <main className="main-content animate-fade-in" style={{ flexGrow: 1 }}>
                 {children}
             </main>
             <Footer />

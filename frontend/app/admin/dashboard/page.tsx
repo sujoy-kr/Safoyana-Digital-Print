@@ -1,6 +1,6 @@
 'use client';
 import { useAppStore } from '@/store/useAppStore';
-import { Package, Users, ListOrdered, DollarSign, ArrowUpRight } from 'lucide-react';
+import { Package, Users, ListOrdered, Euro, ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ordersApi } from '@/lib/api/orders';
@@ -31,7 +31,7 @@ export default function AdminDashboardPage() {
     }, [token]);
 
     const statCards = [
-        { title: 'Total Revenue', value: `$${stats.revenue.toFixed(2)}`, icon: <DollarSign size={24} className="text-secondary" />, link: '/admin/orders' },
+        { title: 'Total Revenue', value: `€${stats.revenue.toFixed(2)}`, icon: <Euro size={24} className="text-secondary" />, link: '/admin/orders' },
         { title: 'Active Orders', value: stats.orders, icon: <ListOrdered size={24} className="text-primary" />, link: '/admin/orders' },
         { title: 'Products Listed', value: stats.products, icon: <Package size={24} className="text-success-color" />, link: '/admin/products' },
         { title: 'Registered Users', value: stats.users, icon: <Users size={24} style={{ color: '#8B5CF6' }} />, link: '/admin/users' },

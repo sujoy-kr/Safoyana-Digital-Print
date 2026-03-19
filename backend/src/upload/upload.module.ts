@@ -12,5 +12,6 @@ import { LocalStorageStrategy } from './strategies/local-storage.strategy';
       useClass: LocalStorageStrategy,
     },
   ],
+  exports: [UploadService]
 })
 export class UploadModule {}

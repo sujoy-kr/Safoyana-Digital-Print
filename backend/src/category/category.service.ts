@@ -16,7 +16,7 @@ export class CategoryService {
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
     try {
       return await this.prismaService.category.create({
-        data: createCategoryDto,
+        data: createCategoryDto as any,
       });
     } catch (error) {
       if (
@@ -54,7 +54,7 @@ export class CategoryService {
     try {
       return await this.prismaService.category.update({
         where: { id },
-        data: updateCategoryDto,
+        data: updateCategoryDto as any,
       });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {

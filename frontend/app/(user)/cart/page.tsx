@@ -51,8 +51,8 @@ export default function CartPage() {
 
     if (cart.length === 0) {
         return (
-            <div className="container py-10 text-center animate-fade-in">
-                <Card className="max-w-lg mx-auto py-10">
+            <div className="container mx-auto py-10 text-center animate-fade-in">
+                <Card className="mx-auto py-10 mt-4">
                     <h2 className="text-2xl font-bold mb-4">Your Cart is Empty</h2>
                     <p className="text-secondary mb-6">Looks like you haven't added any products to your cart yet.</p>
                     <Link href="/products" className="btn btn-primary">Start Shopping</Link>
@@ -62,12 +62,12 @@ export default function CartPage() {
     }
 
     return (
-        <div className="container py-8 animate-fade-in">
-            <h1 className="text-3xl font-bold mb-6">Shopping Cart</h1>
+        <div className="container mx-auto py-8 md:py-12 animate-fade-in px-4 md:px-6">
+            <h1 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8">Shopping Cart</h1>
 
-            <div className="grid grid-cols-3 gap-6">
+            <div className="flex flex-col lg:grid lg:grid-cols-3 gap-8">
 
-                <div className="col-span-2">
+                <div className="lg:col-span-2 order-2 lg:order-1">
                     {cart.map((item, index) => (
                         <Card key={index} className="flex gap-4 items-center mb-4">
                             <div style={{ width: '100px', height: '100px', backgroundColor: 'var(--bg-color)', borderRadius: 'var(--radius-sm)' }}>
@@ -84,7 +84,7 @@ export default function CartPage() {
                             </div>
 
                             <div className="text-right mr-4">
-                                <div className="font-bold text-xl">${item.totalPrice.toFixed(2)}</div>
+                                <div className="font-bold text-xl">€{item.totalPrice.toFixed(2)}</div>
                             </div>
 
                             <button
@@ -99,13 +99,13 @@ export default function CartPage() {
                     ))}
                 </div>
 
-                <div>
-                    <Card style={{ position: 'sticky', top: '100px' }}>
-                        <h3 className="font-bold text-lg mb-4 pb-3" style={{ borderBottom: '1px solid var(--border-color)' }}>Order Summary</h3>
+                <div className="order-1 lg:order-2">
+                    <div className="card" style={{ position: 'sticky', top: '100px' }}>
+                        <h3 className="font-bold text-xl mb-4 pb-4" style={{ borderBottom: '1px solid var(--border-color)' }}>Order Summary</h3>
 
                         <div className="flex justify-between mb-3 text-secondary">
                             <span>Subtotal</span>
-                            <span>${cartTotal.toFixed(2)}</span>
+                            <span>€{cartTotal.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between mb-3 text-secondary">
                             <span>Shipping</span>
@@ -114,7 +114,7 @@ export default function CartPage() {
 
                         <div className="flex justify-between mt-4 pt-4 mb-6" style={{ borderTop: '1px solid var(--border-color)' }}>
                             <span className="font-bold">Total</span>
-                            <span className="font-bold text-2xl text-primary">${cartTotal.toFixed(2)}</span>
+                            <span className="font-bold text-2xl text-primary">€{cartTotal.toFixed(2)}</span>
                         </div>
 
                         <Button
@@ -129,10 +129,10 @@ export default function CartPage() {
 
                         {!token && (
                             <p className="text-xs text-center text-secondary mt-3">
-                                You will be asked to <Link href="/login" className="text-primary font-bold">log in</Link> before finalizing payment.
+                                You will be asked to <Link href="/login" className="text-primary font-bold hover:underline">log in</Link> before finalizing payment.
                             </p>
                         )}
-                    </Card>
+                    </div>
                 </div>
 
             </div>

@@ -43,7 +43,7 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="container flex justify-center items-center py-6" style={{ minHeight: 'calc(100vh - 300px)' }}>
+        <div className="container mx-auto flex justify-center items-center py-6" style={{ minHeight: 'calc(100vh - 300px)' }}>
             <Card style={{ width: '100%', maxWidth: '400px' }}>
                 <h1 className="text-2xl font-bold mb-4 text-center">
                     {isRegister ? 'Create an Account' : 'Welcome Back'}
@@ -53,34 +53,34 @@ export default function LoginPage() {
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                     {isRegister && (
-                        <Input 
-                            label="Full Name" 
-                            required 
-                            type="text" 
-                            value={formData.name} 
-                            onChange={e => setFormData({ ...formData, name: e.target.value })} 
-                            placeholder="John Doe" 
+                        <Input
+                            label="Full Name"
+                            required
+                            type="text"
+                            value={formData.name}
+                            onChange={e => setFormData({ ...formData, name: e.target.value })}
+                            placeholder="John Doe"
                             className="mb-0"
                         />
                     )}
 
-                    <Input 
-                        label="Email Address" 
-                        required 
-                        type="email" 
-                        value={formData.email} 
-                        onChange={e => setFormData({ ...formData, email: e.target.value })} 
-                        placeholder="you@company.com" 
+                    <Input
+                        label="Email Address"
+                        required
+                        type="email"
+                        value={formData.email}
+                        onChange={e => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="you@company.com"
                         className="mb-0"
                     />
 
-                    <Input 
-                        label="Password" 
-                        required 
-                        type="password" 
-                        value={formData.password} 
-                        onChange={e => setFormData({ ...formData, password: e.target.value })} 
-                        placeholder="••••••••" 
+                    <Input
+                        label="Password"
+                        required
+                        type="password"
+                        value={formData.password}
+                        onChange={e => setFormData({ ...formData, password: e.target.value })}
+                        placeholder="••••••••"
                         className="mb-4"
                     />
 

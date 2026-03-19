@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
 
 export class CreateCategoryDto {
   @ApiProperty({ example: 'Business Cards' })
@@ -15,9 +15,9 @@ export class CreateCategoryDto {
   @ApiProperty({
     example: 'https://my-bucket.s3.amazonaws.com/category-business-cards.jpg',
     description: 'The main display image URL for the category',
+    required: false,
   })
   @IsString()
-  @IsNotEmpty()
-  @IsUrl()
-  image: string;
+  @IsOptional()
+  image?: string;
 }

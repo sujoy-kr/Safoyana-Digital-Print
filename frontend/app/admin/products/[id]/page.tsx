@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Trash2, Package, Settings, Tag, DollarSign, Image as ImageIcon } from 'lucide-react';
+import { ArrowLeft, Trash2, Package, Settings, Tag, Euro, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
 import { productsApi } from '@/lib/api/products';
 import { Card } from '@/components/ui/Card';
@@ -95,7 +95,7 @@ export default function ProductDetailPage() {
                     <h1 className="text-3xl font-bold mb-2 tracking-tight">{product.name}</h1>
                     <div className="flex gap-4 text-sm text-secondary items-center">
                         <span className="flex items-center"><Tag size={16} className="mr-1" /> Category ID: {product.categoryId}</span>
-                        <span className="flex items-center"><DollarSign size={16} className="mr-1" /> Base: ${Number(product.basePrice).toFixed(2)}</span>
+                        <span className="flex items-center"><Euro size={16} className="mr-1" /> Base: €{Number(product.basePrice).toFixed(2)}</span>
                     </div>
                 </div>
                 <div className="flex gap-3">
@@ -165,7 +165,7 @@ export default function ProductDetailPage() {
                                                             <td className="py-2 font-medium">{opt.label}</td>
                                                             <td className="py-2 font-mono text-xs text-secondary">{opt.value}</td>
                                                             <td className="py-2 text-right text-success-color font-bold pl-2">
-                                                                {opt.priceAdded > 0 ? `+$${Number(opt.priceAdded).toFixed(2)}` : '—'}
+                                                                {opt.priceAdded > 0 ? `+€${Number(opt.priceAdded).toFixed(2)}` : '—'}
                                                             </td>
                                                             {attr.type === 'radio-image' && (
                                                                 <td className="py-2 text-right pl-2">

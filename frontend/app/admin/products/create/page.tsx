@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useAppStore } from '@/store/useAppStore';
 import { productsApi } from '@/lib/api/products';
 import { categoriesApi } from '@/lib/api/categories';
+import { uploadApi } from '@/lib/api/upload';
 import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 
@@ -147,13 +148,34 @@ export default function CreateProductPage() {
                         </div>
 
                         <div className="form-group">
-                            <label className="form-label">Base Price ($)</label>
+                            <label className="form-label">Base Price (€)</label>
                             <input required type="number" step="0.01" className="form-input" value={basePrice} onChange={e => setBasePrice(e.target.value)} />
                         </div>
 
                         <div className="form-group">
-                            <label className="form-label">Main Image URL</label>
-                            <input type="url" className="form-input" value={imageUrl} onChange={e => setImageUrl(e.target.value)} placeholder="https://example.com/image.jpg" />
+                            <label className="form-label">Product Image (File)</label>
+                            <input 
+                                type="file" 
+                                accept="image/*" 
+                                className="form-input" 
+                                onChange={async (e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                        try {
+                                            const res = await uploadApi.upload(file);
+                                            setImageUrl(res.url);
+                                        } catch (err) {
+                                            console.error('Upload failed', err);
+                                            alert('Failed to upload image');
+                                        }
+                                    }
+                                }} 
+                            />
+                            {imageUrl && (
+                                <div className="mt-2 h-20 w-32 rounded border border-gray-700 overflow-hidden bg-gray-900">
+                                    <img src={imageUrl} alt="Preview" className="w-full h-full object-cover" />
+                                </div>
+                            )}
                         </div>
 
                         <div className="form-group col-span-2">
@@ -169,7 +191,7 @@ export default function CreateProductPage() {
                 </Card>
 
                 {/* Dynamic Schema Builder */}
-                <div className="card-no-hover" style={{ backgroundColor: '#F8FAFC', borderColor: 'var(--primary-color)', borderWidth: '2px' }}>
+                <div className="card-no-hover" style={{ borderColor: 'var(--border-color)', borderWidth: '1px' }}>
                     <div className="flex justify-between items-center mb-4">
                         <div>
                             <h2 className="text-xl font-bold">Customization Schema</h2>
@@ -182,13 +204,13 @@ export default function CreateProductPage() {
 
                     <div className="flex flex-col gap-4 mt-6">
                         {attributes.length === 0 && (
-                            <div className="text-center py-6 text-secondary border-2 border-dashed border-gray-300 rounded-lg">
+                            <div className="text-center py-6 text-secondary border-2 border-dashed border-gray-800 rounded-lg">
                                 No customization options added yet. Product will only have the base price.
                             </div>
                         )}
 
                         {attributes.map((attr, attrIndex) => (
-                            <div key={attr.id} className="card-no-hover" style={{ borderLeft: '4px solid var(--primary-color)' }}>
+                            <div key={attr.id} className="card-no-hover mb-6 last:mb-0" style={{ borderLeft: '4px solid var(--accent-color)', backgroundColor: 'var(--surface-hover)' }}>
 
                                 <div className="flex justify-between items-start mb-4">
                                     <div className="flex gap-4 flex-grow mr-4">
@@ -216,13 +238,13 @@ export default function CreateProductPage() {
 
                                     <div className="flex flex-col gap-2">
                                         {attr.options.map((opt, optIndex) => (
-                                            <div key={optIndex} className="flex gap-2 items-center bg-white p-2 rounded border border-gray-200 shadow-sm relative group">
+                                            <div key={optIndex} className="flex gap-2 items-center bg-black/20 p-2 rounded border border-white/5 shadow-sm relative group">
                                                 <GripVertical size={16} className="text-gray-400" />
                                                 <div className="flex-grow grid grid-cols-4 gap-2">
                                                     <input type="text" className="form-input text-sm px-2 py-1 h-8 col-span-2" value={opt.label} onChange={e => updateOption(attrIndex, optIndex, 'label', e.target.value)} placeholder="Label (e.g., 300g Matte)" />
                                                     <input type="text" className="form-input text-sm px-2 py-1 h-8" value={opt.value} onChange={e => updateOption(attrIndex, optIndex, 'value', e.target.value)} placeholder="System Value" />
                                                     <div className="flex items-center">
-                                                        <span className="text-secondary text-sm mr-1 w-6">+ $</span>
+                                                        <span className="text-secondary text-sm mr-1 w-6">+ €</span>
                                                         <input type="number" step="0.01" className="form-input text-sm px-2 py-1 h-8 w-full" value={opt.priceAdded} onChange={e => updateOption(attrIndex, optIndex, 'priceAdded', parseFloat(e.target.value) || 0)} />
                                                     </div>
                                                 </div>
@@ -232,14 +254,16 @@ export default function CreateProductPage() {
                                                         accept="image/*"
                                                         className="form-input text-sm px-2 py-1 h-8"
                                                         style={{ width: '150px' }}
-                                                        onChange={e => {
+                                                        onChange={async (e) => {
                                                             const file = e.target.files?.[0];
                                                             if (file) {
-                                                                const reader = new FileReader();
-                                                                reader.onloadend = () => {
-                                                                    updateOption(attrIndex, optIndex, 'image', reader.result as string);
-                                                                };
-                                                                reader.readAsDataURL(file);
+                                                                try {
+                                                                    const res = await uploadApi.upload(file);
+                                                                    updateOption(attrIndex, optIndex, 'image', res.url);
+                                                                } catch (err) {
+                                                                    console.error('Upload failed', err);
+                                                                    alert('Failed to upload option image');
+                                                                }
                                                             }
                                                         }}
                                                     />
@@ -262,7 +286,7 @@ export default function CreateProductPage() {
                 </div>
 
                 <div className="flex justify-end gap-3 mt-4 mb-10">
-                    <Link href="/admin/products" className="btn btn-secondary bg-white text-black border-gray-300 hover:bg-gray-50">Cancel</Link>
+                    <Link href="/admin/products" className="btn btn-secondary border-gray-700 hover:bg-gray-800">Cancel</Link>
                     <button type="submit" className="btn btn-primary shadow-lg" style={{ padding: '0.75rem 2rem', fontSize: '1.125rem' }}>Inject Product Schema</button>
                 </div>
 

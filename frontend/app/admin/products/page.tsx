@@ -79,7 +79,7 @@ export default function AdminProductsPage() {
                                 <td className="text-sm text-secondary" style={{ maxWidth: '200px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                     {p.description || '-'}
                                 </td>
-                                <td className="font-semibold text-primary">${Number(p.basePrice).toFixed(2)}</td>
+                                <td className="font-semibold text-primary">€{Number(p.basePrice).toFixed(2)}</td>
                                 <td>
                                     <span className="badge badge-user">{p.attributes ? p.attributes.length : 0} Option Groups</span>
                                 </td>

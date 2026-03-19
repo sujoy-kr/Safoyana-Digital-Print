@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft, Package, User as UserIcon, Calendar, DollarSign, Settings, Receipt } from 'lucide-react';
+import { ArrowLeft, Package, User as UserIcon, Calendar, Euro, Settings, Receipt } from 'lucide-react';
 import Link from 'next/link';
 import { ordersApi } from '@/lib/api/orders';
 import { Card } from '@/components/ui/Card';
@@ -103,7 +103,7 @@ export default function OrderDetailPage() {
                     </h1>
                     <div className="flex gap-4 text-sm text-secondary items-center">
                         <span className="flex items-center"><Calendar size={16} className="mr-1 text-primary" /> {new Date(order.createdAt).toLocaleString()}</span>
-                        <span className="flex items-center"><Receipt size={16} className="mr-1 text-primary" /> Total: <strong className="ml-1 text-black">${Number(order.totalAmount).toFixed(2)}</strong></span>
+                        <span className="flex items-center"><Receipt size={16} className="mr-1 text-primary" /> Total: <strong className="ml-1 text-black">€{Number(order.totalAmount).toFixed(2)}</strong></span>
                     </div>
                 </div>
                 <div className="flex flex-col items-end gap-2">
@@ -144,19 +144,19 @@ export default function OrderDetailPage() {
                     </Card>
 
                     <Card noHover>
-                        <h2 className="text-lg font-bold mb-3 flex items-center"><DollarSign size={18} className="mr-2 text-primary" /> Payment Summary</h2>
+                        <h2 className="text-lg font-bold mb-3 flex items-center"><Euro size={18} className="mr-2 text-primary" /> Payment Summary</h2>
                         <div className="space-y-2 text-sm">
                             <div className="flex justify-between">
                                 <span className="text-secondary">Subtotal</span>
-                                <span>${Number(order.totalAmount).toFixed(2)}</span>
+                                <span>€{Number(order.totalAmount).toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-secondary">Shipping</span>
-                                <span>$0.00</span>
+                                <span>€0.00</span>
                             </div>
                             <div className="flex justify-between pt-2 mt-2 font-bold text-base" style={{ borderTop: '1px solid var(--border-color)' }}>
                                 <span>Total</span>
-                                <span>${Number(order.totalAmount).toFixed(2)}</span>
+                                <span>€{Number(order.totalAmount).toFixed(2)}</span>
                             </div>
                         </div>
                     </Card>
@@ -182,8 +182,8 @@ export default function OrderDetailPage() {
                                                 </div>
                                             </div>
                                             <div className="text-right">
-                                                <div className="font-bold text-lg">${(item.unitPrice * item.quantity).toFixed(2)}</div>
-                                                <div className="text-sm text-secondary">{item.quantity} × ${Number(item.unitPrice).toFixed(2)}</div>
+                                                <div className="font-bold text-lg">€{(item.unitPrice * item.quantity).toFixed(2)}</div>
+                                                <div className="text-sm text-secondary">{item.quantity} × €{Number(item.unitPrice).toFixed(2)}</div>
                                             </div>
                                         </div>
 

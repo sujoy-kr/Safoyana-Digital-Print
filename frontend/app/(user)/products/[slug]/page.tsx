@@ -115,36 +115,36 @@ export default function ProductConfiguratorPage({ params }: { params: Promise<{ 
     };
 
     if (!product) {
-        return <div className="container py-8 text-center animate-pulse">Loading configurator...</div>;
+        return <div className="container mx-auto py-8 text-center animate-pulse">Loading configurator...</div>;
     }
 
     return (
-        <div className="container py-4">
+        <div className="container mx-auto py-4 px-4 md:px-6">
             <div className="text-secondary text-sm mb-4">
                 Home / Products / <span className="text-primary font-semibold">{product.name}</span>
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12">
                 <div>
-                    <Card className="mb-4" style={{ height: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#F8FAFC' }}>
-                        <div className="text-center text-secondary">
-                            <h2>{product.name} Preview Area</h2>
-                            <p className="text-sm mt-2 max-w-xs">Change config options on the right to see updates here.</p>
+                    <div style={{ height: '480px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--surface-color)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)', marginBottom: 'var(--space-6)' }}>
+                        <div className="text-center">
+                            <h2 className="text-xl font-medium text-primary mb-2">{product.name} Preview Area</h2>
+                            <p className="text-sm mt-2 max-w-xs text-muted">Select your configuration options on the right.</p>
                         </div>
-                    </Card>
+                    </div>
 
-                    <h2 className="text-2xl font-bold mb-2">{product.name}</h2>
-                    <p className="text-secondary mb-4">{product.description || 'Premium quality prints for your business needs.'}</p>
+                    <h2 className="text-4xl font-bold mb-3">{product.name}</h2>
+                    <p className="text-secondary mb-6 text-lg">{product.description || 'Premium quality prints for your business needs.'}</p>
 
-                    <Card className="mb-4" style={{ backgroundColor: '#F0F9FF', borderColor: '#BAE6FD' }}>
+                    <div className="p-4" style={{ backgroundColor: 'rgba(0, 112, 243, 0.05)', border: '1px solid rgba(0, 112, 243, 0.2)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-6)' }}>
                         <div className="flex items-start gap-3">
-                            <Info className="text-primary mt-1" size={20} />
+                            <Info className="text-accent mt-1" size={20} style={{ color: 'var(--accent-color)' }} />
                             <div>
-                                <h4 className="font-bold text-primary mb-1">Print Guidelines</h4>
+                                <h4 className="font-semibold text-primary mb-1">Print Guidelines</h4>
                                 <p className="text-secondary text-sm">Please ensure your design file is in CMYK format, has a minimum resolution of 300dpi, and includes a 3mm bleed area on all sides.</p>
                             </div>
                         </div>
-                    </Card>
+                    </div>
                 </div>
 
                 <div>
@@ -162,7 +162,7 @@ export default function ProductConfiguratorPage({ params }: { params: Promise<{ 
                                     >
                                         {attr.options.map((opt: any) => (
                                             <option key={opt.value} value={opt.value}>
-                                                {opt.label} {opt.priceAdded > 0 ? `(+$${opt.priceAdded})` : ''}
+                                                {opt.label} {opt.priceAdded > 0 ? `(+€${opt.priceAdded})` : ''}
                                             </option>
                                         ))}
                                     </select>
@@ -182,7 +182,7 @@ export default function ProductConfiguratorPage({ params }: { params: Promise<{ 
                                                     <div className="text-sm mt-1 font-semibold">{opt.label}</div>
                                                     {opt.priceAdded !== 0 && (
                                                         <div className="option-price-label">
-                                                            {opt.priceAdded > 0 ? '+' : '-'}${Math.abs(opt.priceAdded)}
+                                                            {opt.priceAdded > 0 ? '+' : '-'}€{Math.abs(opt.priceAdded)}
                                                         </div>
                                                     )}
                                                 </div>
@@ -193,27 +193,27 @@ export default function ProductConfiguratorPage({ params }: { params: Promise<{ 
                             </div>
                         ))}
 
-                        <div className="mb-5 pb-5" style={{ borderBottom: '1px solid var(--border-color)' }}>
-                            <h3 className="font-bold mb-3">Upload Custom Design</h3>
+                        <div className="mb-6 pb-6" style={{ borderBottom: '1px solid var(--border-color)' }}>
+                            <h3 className="font-semibold mb-4">Upload Custom Design</h3>
 
                             {!uploadUrl ? (
-                                <div style={{ border: '2px dashed var(--border-focus)', borderRadius: 'var(--radius-md)', padding: 'var(--space-4)', textAlign: 'center', backgroundColor: '#F8FAFC' }}>
-                                    <UploadCloud size={32} className="mx-auto text-primary mb-2" />
-                                    <p className="text-sm font-semibold mb-2">Drag and drop or click to upload</p>
-                                    <p className="text-xs text-secondary mb-3">Supported formats: PDF, AI, PSD, JPEG, PNG (Max 50MB)</p>
+                                <div style={{ border: '1px dashed var(--border-focus)', borderRadius: 'var(--radius-md)', padding: 'var(--space-6)', textAlign: 'center', transition: 'all var(--transition-fast)' }}>
+                                    <UploadCloud size={28} className="mx-auto text-secondary mb-3" />
+                                    <p className="text-sm font-medium mb-1">Drag and drop or click to upload</p>
+                                    <p className="text-xs text-muted mb-4">Supported formats: PDF, AI, PSD, JPEG, PNG (Max 50MB)</p>
                                     <input type="file" onChange={handleFileUpload} className="hidden" id="fileUpload" accept=".pdf,.png,.jpg,.jpeg,.ai,.psd" />
                                     <label htmlFor="fileUpload" className="btn btn-secondary cursor-pointer">
                                         {isUploading ? 'Uploading...' : 'Select File'}
                                     </label>
                                 </div>
                             ) : (
-                                <div className="flex items-center gap-3 p-3" style={{ border: '1px solid var(--success-color)', borderRadius: 'var(--radius-md)', backgroundColor: '#ECFDF5' }}>
-                                    <CheckCircle className="text-success-color" size={24} />
+                                <div className="flex items-center gap-4 p-4" style={{ border: '1px solid rgba(0, 112, 243, 0.4)', borderRadius: 'var(--radius-md)', backgroundColor: 'rgba(0, 112, 243, 0.05)' }}>
+                                    <CheckCircle size={24} style={{ color: 'var(--accent-color)' }} />
                                     <div>
-                                        <h4 className="font-bold text-success-color text-sm">File Uploaded Successfully</h4>
-                                        <p className="text-xs text-success-color opacity-80">{uploadFile?.name}</p>
+                                        <h4 className="font-medium text-sm">File Uploaded Successfully</h4>
+                                        <p className="text-xs text-secondary mt-1">{uploadFile?.name}</p>
                                     </div>
-                                    <button className="btn ml-auto text-xs" style={{ padding: '0.25rem 0.5rem' }} onClick={() => setUploadUrl('')}>Replace</button>
+                                    <button className="btn btn-secondary ml-auto text-xs" style={{ padding: '0.25rem 0.75rem' }} onClick={() => setUploadUrl('')}>Replace</button>
                                 </div>
                             )}
                         </div>
@@ -225,14 +225,14 @@ export default function ProductConfiguratorPage({ params }: { params: Promise<{ 
                                     type="number"
                                     min="1"
                                     className="form-input"
-                                    style={{ width: '100px' }}
+                                    style={{ width: '100px', backgroundColor: 'var(--surface-color)' }}
                                     value={quantity}
                                     onChange={e => setQuantity(Number(e.target.value))}
                                 />
                             </div>
                             <div className="text-right">
                                 <div className="text-xs text-secondary mb-1">Total Price (incl. VAT)</div>
-                                <div className="text-2xl font-bold text-primary">${totalPrice.toFixed(2)}</div>
+                                <div className="text-3xl font-bold text-primary">€{totalPrice.toFixed(2)}</div>
                             </div>
                         </div>
 

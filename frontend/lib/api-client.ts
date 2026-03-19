@@ -8,10 +8,10 @@ interface FetchOptions extends RequestInit {
 
 export async function apiClient<T>(endpoint: string, options: FetchOptions = {}): Promise<T> {
     const url = `${BASE_URL}${endpoint}`;
-    
+
     // Default headers
     const headers = new Headers(options.headers);
-    if (!headers.has('Content-Type')) {
+    if (!headers.has('Content-Type') && !(options.body instanceof FormData)) {
         headers.set('Content-Type', 'application/json');
     }
 

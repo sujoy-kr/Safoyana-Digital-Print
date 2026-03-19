@@ -23,7 +23,11 @@ export default function CategoriesPage() {
     // Form state
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [image, setImage] = useState('');
+    const [slug, setSlug] = useState('');
+    const [imagePreview, setImagePreview] = useState('');
+    const [imageFile, setImageFile] = useState<File | null>(null);
+
+    const [editingCategory, setEditingCategory] = useState<any>(null);
 
     useEffect(() => {
         fetchCategories();
@@ -42,12 +46,33 @@ export default function CategoriesPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        const finalSlug = slug || name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+        
         try {
-            await categoriesApi.create({ name, description, image, isActive: true });
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('slug', finalSlug);
+            
+            // Only basic fields needed by CreateCategoryDto
+            if (imageFile) {
+                formData.append('image', imageFile);
+            } else if (editingCategory && imagePreview) {
+                // If editing and didn't pick a new file, we can optionally pass the old string url
+                formData.append('image', imagePreview);
+            }
+
+            if (editingCategory) {
+                await categoriesApi.update(editingCategory.id, formData);
+            } else {
+                await categoriesApi.create(formData);
+            }
+            
             setShowModal(false);
             setName('');
+            setSlug('');
             setDescription('');
-            setImage('');
+            setImagePreview('');
+            setImageFile(null);
             fetchCategories();
         } catch (error) {
             console.error('Failed to create category:', error);
@@ -132,7 +157,7 @@ export default function CategoriesPage() {
                 onClose={() => setShowModal(false)}
                 title="Create New Category"
             >
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-2">
                     <Input
                         label="Category Name *"
                         required
@@ -152,14 +177,26 @@ export default function CategoriesPage() {
                         />
                     </div>
 
-                    <Input
-                        label="Image URL"
-                        type="url"
-                        value={image}
-                        onChange={e => setImage(e.target.value)}
-                        placeholder="https://..."
-                        className="mb-0"
-                    />
+                    <div className="form-group mb-0">
+                        <label className="form-label">Category Image (File)</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            className="form-input"
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                    setImageFile(file);
+                                    setImagePreview(URL.createObjectURL(file));
+                                }
+                            }}
+                        />
+                        {imagePreview && (
+                            <div className="mt-2 h-20 w-32 rounded border border-gray-700 overflow-hidden bg-gray-900">
+                                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                            </div>
+                        )}
+                    </div>
 
                     <div className="flex gap-3 justify-end mt-4">
                         <Button type="button" variant="secondary" onClick={() => setShowModal(false)} className="border border-gray-300">

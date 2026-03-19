@@ -117,11 +117,11 @@ export default function ProfilePage() {
     };
 
     if (loading) {
-        return <div className="container py-8 text-center animate-pulse">Loading profile data...</div>;
+        return <div className="container mx-auto py-8 text-center animate-pulse">Loading profile data...</div>;
     }
 
     return (
-        <div className="container py-8 animate-fade-in">
+        <div className="container mx-auto py-8 animate-fade-in">
             <div className="flex justify-between items-end mb-6 pb-4" style={{ borderBottom: '1px solid var(--border-color)' }}>
                 <div>
                     <h1 className="text-3xl font-bold mb-2">My Account</h1>
@@ -182,7 +182,7 @@ export default function ProfilePage() {
                                                 </div>
                                                 <div className="text-right">
                                                     <div className="mb-1">{getStatusBadge(order.status)}</div>
-                                                    <div className="font-bold text-primary">${Number(order.totalAmount).toFixed(2)}</div>
+                                                    <div className="font-bold text-primary">€{Number(order.totalAmount).toFixed(2)}</div>
                                                 </div>
                                             </div>
 
@@ -192,7 +192,7 @@ export default function ProfilePage() {
                                                     <div>
                                                         <h4 className="font-bold text-sm">{item.product?.name || 'Unknown Product'}</h4>
                                                         <div className="text-xs text-secondary">
-                                                            Qty: {item.quantity} | Unit Price: ${Number(item.unitPrice).toFixed(2)}
+                                                            Qty: {item.quantity} | Unit Price: €{Number(item.unitPrice).toFixed(2)}
                                                         </div>
                                                         {item.customConfig && (item.customConfig.designFileUrl || item.customConfig.designFile) && (
                                                             <a href={item.customConfig.designFileUrl || item.customConfig.designFile} target="_blank" className="text-primary text-xs hover:underline mt-1 inline-block">View Design File →</a>
@@ -211,20 +211,20 @@ export default function ProfilePage() {
                         <Card noHover className="max-w-2xl">
                             <h2 className="text-2xl font-bold mb-6">Profile Details</h2>
                             <form onSubmit={handleUpdateProfile} className="flex flex-col gap-4">
-                                <Input 
-                                    label="Full Name" 
-                                    required 
-                                    type="text" 
-                                    value={name} 
-                                    onChange={e => setName(e.target.value)} 
+                                <Input
+                                    label="Full Name"
+                                    required
+                                    type="text"
+                                    value={name}
+                                    onChange={e => setName(e.target.value)}
                                     className="mb-0"
                                 />
-                                <Input 
-                                    label="Email Address" 
-                                    required 
-                                    type="email" 
-                                    value={email} 
-                                    onChange={e => setEmail(e.target.value)} 
+                                <Input
+                                    label="Email Address"
+                                    required
+                                    type="email"
+                                    value={email}
+                                    onChange={e => setEmail(e.target.value)}
                                     className="mb-0"
                                 />
                                 <div className="mt-2">
@@ -238,47 +238,47 @@ export default function ProfilePage() {
                         <Card noHover className="max-w-2xl">
                             <h2 className="text-2xl font-bold mb-6">Shipping Address</h2>
                             <form onSubmit={handleUpdateAddress} className="flex flex-col gap-4">
-                                <Input 
-                                    label="Street Address" 
-                                    required 
-                                    type="text" 
-                                    value={street} 
-                                    onChange={e => setStreet(e.target.value)} 
+                                <Input
+                                    label="Street Address"
+                                    required
+                                    type="text"
+                                    value={street}
+                                    onChange={e => setStreet(e.target.value)}
                                     className="mb-0"
                                 />
                                 <div className="grid grid-cols-2 gap-4">
-                                    <Input 
-                                        label="City" 
-                                        required 
-                                        type="text" 
-                                        value={city} 
-                                        onChange={e => setCity(e.target.value)} 
+                                    <Input
+                                        label="City"
+                                        required
+                                        type="text"
+                                        value={city}
+                                        onChange={e => setCity(e.target.value)}
                                         className="mb-0"
                                     />
-                                    <Input 
-                                        label="State / Province" 
-                                        required 
-                                        type="text" 
-                                        value={stateProp} 
-                                        onChange={e => setStateProp(e.target.value)} 
+                                    <Input
+                                        label="State / Province"
+                                        required
+                                        type="text"
+                                        value={stateProp}
+                                        onChange={e => setStateProp(e.target.value)}
                                         className="mb-0"
                                     />
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <Input 
-                                        label="Zip / Postal Code" 
-                                        required 
-                                        type="text" 
-                                        value={zipCode} 
-                                        onChange={e => setZipCode(e.target.value)} 
+                                    <Input
+                                        label="Zip / Postal Code"
+                                        required
+                                        type="text"
+                                        value={zipCode}
+                                        onChange={e => setZipCode(e.target.value)}
                                         className="mb-0"
                                     />
-                                    <Input 
-                                        label="Country" 
-                                        required 
-                                        type="text" 
-                                        value={country} 
-                                        onChange={e => setCountry(e.target.value)} 
+                                    <Input
+                                        label="Country"
+                                        required
+                                        type="text"
+                                        value={country}
+                                        onChange={e => setCountry(e.target.value)}
                                         className="mb-0"
                                     />
                                 </div>

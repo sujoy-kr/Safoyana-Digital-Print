@@ -171,7 +171,7 @@ export default function UserDetailPage() {
                                             <tr key={order.id}>
                                                 <td className="font-mono text-sm">{order.id.slice(0, 8)}</td>
                                                 <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                                                <td className="font-bold">${Number(order.totalAmount).toFixed(2)}</td>
+                                                <td className="font-bold">€{Number(order.totalAmount).toFixed(2)}</td>
                                                 <td>{getStatusBadge(order.status)}</td>
                                                 <td>
                                                     <Link href={`/admin/orders/${order.id}`} className="text-primary hover:underline text-sm font-semibold">
