@@ -88,6 +88,9 @@ export default function AdminProductsPage() {
                                         <Link href={`/admin/products/${p.id}`} className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}>
                                             View
                                         </Link>
+                                        <Link href={`/admin/products/${p.id}/edit`} className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}>
+                                            Edit
+                                        </Link>
                                         <Button
                                             variant="danger"
                                             onClick={() => handleDelete(p.id)}

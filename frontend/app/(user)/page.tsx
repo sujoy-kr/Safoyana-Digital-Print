@@ -82,9 +82,14 @@ export default function Home() {
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         color: 'var(--text-secondary)',
+                                        overflow: 'hidden',
                                     }}
                                 >
-                                    <span className="opacity-50 text-4xl">{cat.name.charAt(0)}</span>
+                                    {cat.image ? (
+                                        <img src={cat.image} alt={cat.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <span className="opacity-50 text-4xl">{cat.name.charAt(0)}</span>
+                                    )}
                                 </div>
                                 <h3 className="font-semibold text-lg">{cat.name}</h3>
                                 <p className="text-sm text-secondary truncate">{cat.description || 'View products'}</p>
@@ -121,10 +126,15 @@ export default function Home() {
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        color: 'var(--text-secondary)'
+                                        color: 'var(--text-secondary)',
+                                        overflow: 'hidden'
                                     }}
                                 >
-                                    <span>[Image]</span>
+                                    {p.images && p.images.length > 0 ? (
+                                        <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <span>[Image]</span>
+                                    )}
                                 </div>
                                 <div className="flex flex-col flex-grow pt-4">
                                     <h3 className="font-bold mb-1">{p.name}</h3>

@@ -77,10 +77,15 @@ export default function CategoryPage() {
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    color: 'var(--text-secondary)'
+                                    color: 'var(--text-secondary)',
+                                    overflow: 'hidden'
                                 }}
                             >
-                                <span>[Image]</span>
+                                {p.images && p.images.length > 0 ? (
+                                    <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <span>[Image]</span>
+                                )}
                             </div>
                             <div className="flex flex-col flex-grow pt-4">
                                 <h3 className="font-bold mb-1">{p.name}</h3>

@@ -208,25 +208,38 @@ export default function OrderDetailPage() {
                                                     {/* Handling file separately */}
                                                     {(item.customConfig.designFileUrl || item.customConfig.designFile) && (
                                                         <div className="col-span-2 mt-2 pt-2" style={{ borderTop: '1px solid #E5E7EB' }}>
-                                                            <span className="text-xs text-secondary capitalize block mb-1">Design Asset</span>
-                                                            {item.customConfig.designFile && item.customConfig.designFile.startsWith('data:image') ? (
-                                                                <div className="mt-1">
-                                                                    <a href={item.customConfig.designFile} download={`design_asset_order_${order.id.slice(0, 4)}.png`} className="text-primary hover:underline font-medium text-xs">
-                                                                        Download Design Asset (Base64)
-                                                                    </a>
-                                                                    <div className="w-24 h-24 mt-2 border rounded overflow-hidden">
-                                                                        <img src={item.customConfig.designFile} alt="Design Design" className="w-full h-full object-cover" />
+                                                            <span className="text-xs text-secondary capitalize block mb-2 font-bold">Supplied Design Asset</span>
+                                                            {(() => {
+                                                                let fileUrl = String(item.customConfig.designFileUrl || item.customConfig.designFile);
+                                                                // Prepend backend URL if it's a relative path so we don't hit the frontend next.js server and get a 404 HTML
+                                                                if (fileUrl.startsWith('/')) {
+                                                                    const backendUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+                                                                    fileUrl = `${backendUrl}${fileUrl}`;
+                                                                }
+
+                                                                const isImage = fileUrl.match(/\.(jpeg|jpg|gif|png|webp)(\?.*)?$/i) || fileUrl.startsWith('data:image');
+                                                                
+                                                                return (
+                                                                    <div className="flex flex-col items-start gap-2">
+                                                                        {isImage ? (
+                                                                            <>
+                                                                                <a href={fileUrl} target="_blank" className="block border rounded overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-gray-50 max-w-sm" title="Click to view full size">
+                                                                                    <img src={fileUrl} alt="Design Asset Preview" className="w-full h-auto object-contain max-h-48" />
+                                                                                </a>
+                                                                                <a href={fileUrl} download={`order_${order.id.slice(0, 5)}_asset`} className="text-primary hover:underline text-sm font-medium mt-1 inline-flex items-center">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                                                                    Download Image File
+                                                                                </a>
+                                                                            </>
+                                                                        ) : (
+                                                                            <a href={fileUrl} download={`order_${order.id.slice(0, 5)}_asset`} target="_blank" className="btn btn-secondary bg-white text-sm flex items-center border border-gray-300">
+                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                                                                Download Source File
+                                                                            </a>
+                                                                        )}
                                                                     </div>
-                                                                </div>
-                                                            ) : (
-                                                                <a
-                                                                    href={item.customConfig.designFileUrl || item.customConfig.designFile}
-                                                                    target="_blank"
-                                                                    className="text-primary hover:underline font-medium"
-                                                                >
-                                                                    View Supplied File ↗
-                                                                </a>
-                                                            )}
+                                                                );
+                                                            })()}
                                                         </div>
                                                     )}
                                                 </div>

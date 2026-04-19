@@ -99,9 +99,9 @@ export default function ProductDetailPage() {
                     </div>
                 </div>
                 <div className="flex gap-3">
-                    <Button variant="secondary" className="bg-white border-gray-300" onClick={() => alert('Edit feature not in prototype scope.')}>
+                    <Link href={`/admin/products/${id}/edit`} className="btn btn-secondary bg-white border-gray-300">
                         <Settings size={18} className="mr-2" /> Edit Product
-                    </Button>
+                    </Link>
                     <Button variant="danger" onClick={handleDelete}>
                         <Trash2 size={18} className="mr-2" /> Delete Product
                     </Button>

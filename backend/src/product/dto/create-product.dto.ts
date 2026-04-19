@@ -4,7 +4,6 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  IsUrl,
   Min,
 } from 'class-validator';
 
@@ -36,7 +35,6 @@ export class CreateProductDto {
   })
   @IsArray()
   @IsString({ each: true })
-  @IsUrl({}, { each: true })
   images: string[];
 
   @ApiProperty({ example: 'uuid-of-category' })
