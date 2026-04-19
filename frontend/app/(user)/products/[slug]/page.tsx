@@ -14,6 +14,7 @@ export default function ProductConfiguratorPage({ params }: { params: Promise<{ 
     const { addToCart } = useAppStore();
 
     const [product, setProduct] = useState<any>(null);
+    const [notFound, setNotFound] = useState(false);
     const [selectedConfig, setSelectedConfig] = useState<Record<string, any>>({});
     const [totalPrice, setTotalPrice] = useState<number>(0);
     const [quantity, setQuantity] = useState<number>(1);
@@ -40,7 +41,10 @@ export default function ProductConfiguratorPage({ params }: { params: Promise<{ 
                     setSelectedConfig(initialConfig);
                 }
             })
-            .catch(console.error);
+            .catch(err => {
+                console.error(err);
+                setNotFound(true);
+            });
     }, [resolvedParams.slug]);
 
     useEffect(() => {
@@ -113,6 +117,16 @@ export default function ProductConfiguratorPage({ params }: { params: Promise<{ 
         alert("Added to cart!");
         router.push('/cart');
     };
+
+    if (notFound) {
+        return (
+            <div className="container mx-auto py-16 text-center animate-fade-in">
+                <h1 className="text-4xl font-bold mb-4">Product Not Found</h1>
+                <p className="text-secondary mb-8">The product you are looking for does not exist or was removed.</p>
+                <Button onClick={() => router.push('/products')}>Browse All Products</Button>
+            </div>
+        );
+    }
 
     if (!product) {
         return <div className="container mx-auto py-8 text-center animate-pulse">Loading configurator...</div>;

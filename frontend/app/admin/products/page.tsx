@@ -69,7 +69,11 @@ export default function AdminProductsPage() {
                                     <Link href={`/admin/products/${p.id}`} className="hover:underline text-primary">#{p.id}</Link>
                                 </td>
                                 <td>
-                                    <div style={{ width: '40px', height: '40px', backgroundColor: '#F1F5F9', borderRadius: '4px' }}></div>
+                                    <div style={{ width: '40px', height: '40px', backgroundColor: '#F1F5F9', borderRadius: '4px', overflow: 'hidden' }}>
+                                        {p.images && p.images.length > 0 ? (
+                                            <img src={p.images[0]} alt={p.name} className="w-full h-full object-cover" />
+                                        ) : null}
+                                    </div>
                                 </td>
                                 <td className="font-bold">
                                     <Link href={`/admin/products/${p.id}`} className="hover:underline text-primary">

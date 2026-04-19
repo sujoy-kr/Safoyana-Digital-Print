@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guard/jwt.guard';
 import { ProductService } from './product.service';
@@ -29,6 +30,11 @@ export class ProductController {
   @Get()
   async findAll() {
     return this.productService.findAll();
+  }
+
+  @Get('search')
+  async search(@Query('q') q: string) {
+    return this.productService.search(q);
   }
 
   @Get(':id')

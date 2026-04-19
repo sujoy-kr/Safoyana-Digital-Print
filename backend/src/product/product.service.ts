@@ -8,6 +8,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { Prisma } from '@prisma/client';
 import type { Product } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import Fuse from 'fuse.js';
 
 type ProductWithCategory = Prisma.ProductGetPayload<{
   include: { category: true };
@@ -39,6 +40,19 @@ export class ProductService {
         category: true,
       },
     });
+  }
+
+  async search(query: string): Promise<ProductWithCategory[]> {
+    const allProducts = await this.findAll();
+    if (!query) return allProducts;
+
+    const fuse = new Fuse(allProducts, {
+      keys: ['name', 'description', 'category.name'],
+      threshold: 0.4,
+      distance: 100,
+    });
+
+    return fuse.search(query).map(result => result.item);
   }
 
   async findOne(id: string): Promise<ProductWithCategory> {

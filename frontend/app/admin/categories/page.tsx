@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { Plus, Trash2, Archive } from 'lucide-react';
+import { Plus, Trash2, Archive, Settings } from 'lucide-react';
+import Link from 'next/link';
 import { categoriesApi } from '@/lib/api/categories';
 import { Modal } from '@/components/ui/Modal';
 import { Button } from '@/components/ui/Button';
@@ -134,6 +135,9 @@ export default function CategoriesPage() {
                             <div className="flex justify-between items-start mb-2">
                                 <h3 className="font-bold text-xl">{category.name}</h3>
                                 <div className="flex gap-2">
+                                    <Link href={`/admin/categories/${category.id}/edit`} className="text-secondary hover:text-primary transition-colors" title="Edit">
+                                        <Settings size={18} />
+                                    </Link>
                                     <button onClick={() => handleDelete(category.id)} className="text-secondary hover:text-error-color transition-colors" title="Delete">
                                         <Trash2 size={18} />
                                     </button>
