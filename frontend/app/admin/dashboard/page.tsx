@@ -42,14 +42,15 @@ export default function AdminDashboardPage() {
         Promise.all([
             ordersApi.getAll(),
             productsApi.getAll(),
-        ]).then(([orders, products]) => {
+            usersApi.getAll()
+        ]).then(([orders, products, users]) => {
             const orderArray = Array.isArray(orders) ? orders : [];
             const rev = orderArray.reduce((sum, o) => sum + Number(o.totalAmount || 0), 0);
             
             setStats({
                 orders: orderArray.length,
                 products: Array.isArray(products) ? products.length : 0,
-                users: 12, // Mocked
+                users: Array.isArray(users) ? users.length : 0,
                 revenue: rev
             });
 

@@ -288,6 +288,8 @@ async function main() {
   const user = await prisma.user.findFirst();
   if (user) {
     console.log('Creating dummy orders...');
+    
+    // Order 1: Completed
     await prisma.order.create({
       data: {
         userId: user.id,
@@ -297,6 +299,64 @@ async function main() {
           create: [
             { productId: product1.id, quantity: 2, unitPrice: 35.00, customConfig: { 'bc-paper': '400gsm', 'bc-finish': 'none' } },
             { productId: product4.id, quantity: 1, unitPrice: 20.99, customConfig: { 'ts-size': 'XL', 'ts-color': 'black' } }
+          ],
+        },
+      },
+    });
+
+    // Order 2: Pending
+    await prisma.order.create({
+      data: {
+        userId: user.id,
+        status: 'PENDING',
+        totalAmount: 245.50,
+        items: {
+          create: [
+            { productId: product2.id, quantity: 5, unitPrice: 45.00, customConfig: { 'banner-size': '3x6', 'banner-material': '13oz' } },
+            { productId: product3.id, quantity: 1, unitPrice: 20.50, customConfig: { 'flyer-size': 'A5', 'flyer-fold': 'half' } }
+          ],
+        },
+      },
+    });
+
+    // Order 3: Processing
+    await prisma.order.create({
+      data: {
+        userId: user.id,
+        status: 'PROCESSING',
+        totalAmount: 85.00,
+        items: {
+          create: [
+            { productId: product6.id, quantity: 4, unitPrice: 15.00, customConfig: { 'mug-size': '15oz', 'mug-color': 'magic' } },
+            { productId: product5.id, quantity: 1, unitPrice: 25.00, customConfig: { 'sbc-paper': '16pt', 'sbc-sides': 'both' } }
+          ],
+        },
+      },
+    });
+
+    // Order 4: Cancelled
+    await prisma.order.create({
+      data: {
+        userId: user.id,
+        status: 'CANCELLED',
+        totalAmount: 42.00,
+        items: {
+          create: [
+            { productId: product8.id, quantity: 1, unitPrice: 42.00, customConfig: { 'polo-size': 'L', 'polo-color': 'navy' } }
+          ],
+        },
+      },
+    });
+
+    // Order 5: Pending
+    await prisma.order.create({
+      data: {
+        userId: user.id,
+        status: 'PENDING',
+        totalAmount: 180.00,
+        items: {
+          create: [
+            { productId: product7.id, quantity: 2, unitPrice: 90.00, customConfig: { 'folder-finish': 'gloss', 'folder-pockets': 'two' } }
           ],
         },
       },

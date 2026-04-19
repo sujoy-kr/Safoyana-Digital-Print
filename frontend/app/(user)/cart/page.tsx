@@ -70,8 +70,12 @@ export default function CartPage() {
                 <div className="lg:col-span-2 order-2 lg:order-1">
                     {cart.map((item, index) => (
                         <Card key={index} className="flex gap-4 items-center mb-4">
-                            <div style={{ width: '100px', height: '100px', backgroundColor: 'var(--bg-color)', borderRadius: 'var(--radius-sm)' }}>
-                                {/* Thumbnail placeholder */}
+                            <div style={{ width: '100px', height: '100px', backgroundColor: 'var(--bg-color)', borderRadius: 'var(--radius-sm)', overflow: 'hidden', flexShrink: 0 }}>
+                                {item.image ? (
+                                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <span className="flex items-center justify-center w-full h-full text-xs text-gray-400">No Image</span>
+                                )}
                             </div>
 
                             <div className="flex-grow">

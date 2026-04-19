@@ -7,6 +7,14 @@ import { JwtAuthGuard } from '../auth/guard/jwt.guard.js';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get()
+  async getAllUsers(@Req() req: any) {
+    if (req.user.role !== 'ADMIN') {
+        throw new Error('Forbidden');
+    }
+    return this.userService.getAllUsers();
+  }
+
   @Get(':id')
   async getUser(@Param('id') id: string, @Req() req: any) {
     // If frontend hardcodes '1', intercept it and return the logged-in user

@@ -7,6 +7,7 @@ export interface CartItem {
     quantity: number;
     totalPrice: number;
     customConfig: Record<string, any>;
+    image?: string;
 }
 
 interface AppState {

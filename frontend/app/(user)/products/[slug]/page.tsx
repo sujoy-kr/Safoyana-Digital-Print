@@ -108,6 +108,7 @@ export default function ProductConfiguratorPage({ params }: { params: Promise<{ 
             name: product.name,
             quantity,
             totalPrice,
+            image: product.images?.[0] || '',
             customConfig: {
                 ...selectedConfig,
                 designFileUrl: uploadUrl
@@ -140,11 +141,15 @@ export default function ProductConfiguratorPage({ params }: { params: Promise<{ 
 
             <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12">
                 <div>
-                    <div style={{ height: '480px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--surface-color)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)', marginBottom: 'var(--space-6)' }}>
-                        <div className="text-center">
-                            <h2 className="text-xl font-medium text-primary mb-2">{product.name} Preview Area</h2>
-                            <p className="text-sm mt-2 max-w-xs text-muted">Select your configuration options on the right.</p>
-                        </div>
+                    <div style={{ height: '480px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: 'var(--surface-color)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border-color)', marginBottom: 'var(--space-6)', overflow: 'hidden' }}>
+                        {product.images && product.images.length > 0 ? (
+                            <img src={product.images[0]} alt={product.name} className="w-full h-full object-cover" />
+                        ) : (
+                            <div className="text-center">
+                                <h2 className="text-xl font-medium text-primary mb-2">{product.name} Preview Area</h2>
+                                <p className="text-sm mt-2 max-w-xs text-muted">Select your configuration options on the right.</p>
+                            </div>
+                        )}
                     </div>
 
                     <h2 className="text-4xl font-bold mb-3">{product.name}</h2>

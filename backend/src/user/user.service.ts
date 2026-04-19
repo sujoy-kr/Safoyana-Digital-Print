@@ -5,6 +5,21 @@ import { PrismaService } from '../prisma/prisma.service.js';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
+  async getAllUsers() {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        _count: {
+          select: { orders: true }
+        }
+      },
+      orderBy: { id: 'desc' }
+    });
+  }
+
   async getUserById(id: number) {
     const user = await this.prisma.user.findUnique({
       where: { id },

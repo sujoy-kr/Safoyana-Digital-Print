@@ -34,6 +34,7 @@
     "class-validator": "^0.14.3",
     "fuse.js": "^7.3.0",
     "multer": "^2.1.0",
+    "node-fetch": "^3.3.2",
     "pg": "^8.18.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",

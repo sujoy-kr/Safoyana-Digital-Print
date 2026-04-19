@@ -45,7 +45,7 @@ export default function ProfilePage() {
                 setOrders(Array.isArray(ordersData) ? ordersData : []);
 
                 // For prototype user fetching, we fetch the first user (mock behavior for profile)
-                const meData = await usersApi.getById('1');
+                const meData = await usersApi.getById('me');
                 if (meData) {
                     setUser(meData);
                     setName(meData.name || '');
@@ -75,7 +75,7 @@ export default function ProfilePage() {
         e.preventDefault();
         try {
             // Using user 1 for prototype
-            const res = await usersApi.update('1', { name, email });
+            const res = await usersApi.update('me', { name, email });
             if (res) {
                 alert('Profile updated successfully!');
             } else {
@@ -90,7 +90,7 @@ export default function ProfilePage() {
         e.preventDefault();
         try {
             // Using user 1 for prototype
-            const res = await usersApi.update('1', { address: { street, city, state: stateProp, zipCode, country } });
+            const res = await usersApi.update('me', { address: { street, city, state: stateProp, zipCode, country } });
             if (res) {
                 alert('Address updated successfully!');
             } else {

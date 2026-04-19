@@ -7,7 +7,7 @@ export default function AdminLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="admin-layout animate-fade-in">
+        <div className="admin-layout animate-fade-in" suppressHydrationWarning>
             <AdminSidebar />
             <main className="admin-main">
                 {children}

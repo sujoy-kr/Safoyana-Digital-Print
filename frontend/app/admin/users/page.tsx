@@ -2,6 +2,7 @@
 import { useAppStore } from '@/store/useAppStore';
 import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { usersApi } from '@/lib/api/users';
 import { Table } from '@/components/ui/Table';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
@@ -12,16 +13,13 @@ export default function AdminUsersPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Note: The NestJS prototype doesn't have a GET /users endpoint yet.
-        // For now, we mock some users to demonstrate the UI layout.
-        setTimeout(() => {
-            setUsers([
-                { id: '1', name: 'John Doe', email: 'john@example.com', role: 'USER', joined: '2024-05-12' },
-                { id: '2', name: 'Jane Smith', email: 'jane@company.com', role: 'USER', joined: '2024-05-15' },
-                { id: '3', name: 'Admin Master', email: 'admin@safoyanaprint.com', role: 'ADMIN', joined: '2024-01-01' }
-            ]);
-            setLoading(false);
-        }, 1000);
+        if (!token) return;
+        usersApi.getAll()
+            .then(data => {
+                setUsers(Array.isArray(data) ? data : []);
+            })
+            .catch(console.error)
+            .finally(() => setLoading(false));
     }, [token]);
 
     return (
@@ -44,7 +42,7 @@ export default function AdminUsersPage() {
             </div>
 
             <Table 
-                columns={['ID', 'Name', 'Email Address', 'Role', 'Joined Date', 'Actions']}
+                columns={['ID', 'Name', 'Email Address', 'Role', 'Orders', 'Actions']}
                 isLoading={loading}
                 isEmpty={users.length === 0}
                 emptyMessage="No users found."
@@ -65,7 +63,7 @@ export default function AdminUsersPage() {
                                         <span className="badge badge-user text-xs">USER</span>
                                     }
                                 </td>
-                                <td className="text-sm text-secondary">{new Date(u.joined).toLocaleDateString()}</td>
+                                <td className="text-sm text-secondary">{u._count?.orders ?? 0} order(s)</td>
                                 <td className="text-right">
                                     <Button variant="secondary" className="text-xs ml-auto" style={{ padding: '0.25rem 0.75rem' }}>View History</Button>
                                 </td>

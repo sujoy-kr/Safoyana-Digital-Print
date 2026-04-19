@@ -46,7 +46,7 @@ export default function AdminLoginPage() {
     };
 
     return (
-        <div className="flex justify-center items-center" style={{ minHeight: '100vh', backgroundColor: '#F1F5F9' }}>
+        <div className="flex justify-center items-center" style={{ minHeight: '100vh', backgroundColor: '#F1F5F9' }} suppressHydrationWarning>
             <Card className="w-full max-w-sm" style={{ borderTop: '4px solid var(--primary-color)' }}>
                 <div className="text-center mb-6">
                     <ShieldCheck size={40} className="mx-auto text-primary mb-2" />
