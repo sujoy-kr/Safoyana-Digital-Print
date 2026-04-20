@@ -122,7 +122,7 @@ export default function ProfilePage() {
 
     return (
         <div className="container mx-auto py-8 animate-fade-in">
-            <div className="flex justify-between items-end mb-6 pb-4" style={{ borderBottom: '1px solid var(--border-color)' }}>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6 pb-4" style={{ borderBottom: '1px solid var(--border-color)' }}>
                 <div>
                     <h1 className="text-3xl font-bold mb-2">My Account</h1>
                     <p className="text-secondary">Manage your orders and personal details.</p>
@@ -130,30 +130,30 @@ export default function ProfilePage() {
                 <Button variant="secondary" onClick={handleLogout}>Log Out</Button>
             </div>
 
-            <div className="grid grid-cols-4 gap-6">
+            <div className="flex flex-col md:grid md:grid-cols-4 gap-6">
                 {/* Sidebar Nav (Pseudo) */}
                 <div className="col-span-1">
-                    <Card noHover className="p-4 pb-2">
+                    <Card noHover className="p-3 sm:p-4 pb-2 flex flex-row overflow-x-auto md:flex-col gap-2" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                         <div
-                            className={`admin-nav-item ${activeTab === 'orders' ? 'active font-semibold' : ''}`}
+                            className={`admin-nav-item whitespace-nowrap ${activeTab === 'orders' ? 'active font-semibold' : ''}`}
                             style={{ cursor: 'pointer' }}
                             onClick={() => setActiveTab('orders')}
                         >
-                            <Package size={18} /> Order History
+                            <Package size={18} className="inline-block mr-1" /> Order History
                         </div>
                         <div
-                            className={`admin-nav-item ${activeTab === 'profile' ? 'active font-semibold' : ''}`}
+                            className={`admin-nav-item whitespace-nowrap ${activeTab === 'profile' ? 'active font-semibold' : ''}`}
                             style={{ cursor: 'pointer' }}
                             onClick={() => setActiveTab('profile')}
                         >
-                            <UserIcon size={18} /> Profile Details
+                            <UserIcon size={18} className="inline-block mr-1" /> Profile Details
                         </div>
                         <div
-                            className={`admin-nav-item ${activeTab === 'address' ? 'active font-semibold' : ''}`}
+                            className={`admin-nav-item whitespace-nowrap ${activeTab === 'address' ? 'active font-semibold' : ''}`}
                             style={{ cursor: 'pointer' }}
                             onClick={() => setActiveTab('address')}
                         >
-                            <MapPin size={18} /> Addresses
+                            <MapPin size={18} className="inline-block mr-1" /> Addresses
                         </div>
                     </Card>
                 </div>
@@ -175,23 +175,23 @@ export default function ProfilePage() {
                                 <div className="flex flex-col gap-4">
                                     {orders.map((order: any) => (
                                         <Card noHover key={order.id}>
-                                            <div className="flex justify-between items-center mb-3 pb-3" style={{ borderBottom: '1px solid var(--border-color)' }}>
+                                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mb-3 pb-3" style={{ borderBottom: '1px solid var(--border-color)' }}>
                                                 <div>
                                                     <span className="text-xs text-secondary uppercase font-bold tracking-wider">Order #{order.id.slice(0, 8)}</span>
                                                     <div className="text-sm">Placed on {new Date(order.createdAt).toLocaleDateString()}</div>
                                                 </div>
-                                                <div className="text-right">
-                                                    <div className="mb-1">{getStatusBadge(order.status)}</div>
+                                                <div className="text-left sm:text-right mt-1 sm:mt-0 flex flex-row sm:flex-col justify-between w-full sm:w-auto items-center sm:items-end">
+                                                    <div className="mb-0 sm:mb-1">{getStatusBadge(order.status)}</div>
                                                     <div className="font-bold text-primary">€{Number(order.totalAmount).toFixed(2)}</div>
                                                 </div>
                                             </div>
 
                                             {order.items?.map((item: any, idx: number) => (
-                                                <div key={idx} className="flex gap-4 items-center mt-3">
-                                                    <div style={{ width: '60px', height: '60px', backgroundColor: 'var(--bg-color)', borderRadius: 'var(--radius-sm)' }}></div>
+                                                <div key={idx} className="flex gap-3 sm:gap-4 items-start sm:items-center mt-3">
+                                                    <div className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] flex-shrink-0 bg-[var(--bg-color)] rounded-[var(--radius-sm)]"></div>
                                                     <div>
-                                                        <h4 className="font-bold text-sm">{item.product?.name || 'Unknown Product'}</h4>
-                                                        <div className="text-xs text-secondary">
+                                                        <h4 className="font-bold text-sm leading-tight">{item.product?.name || 'Unknown Product'}</h4>
+                                                        <div className="text-xs text-secondary mt-1">
                                                             Qty: {item.quantity} | Unit Price: €{Number(item.unitPrice).toFixed(2)}
                                                         </div>
                                                         {item.customConfig && (item.customConfig.designFileUrl || item.customConfig.designFile) && (

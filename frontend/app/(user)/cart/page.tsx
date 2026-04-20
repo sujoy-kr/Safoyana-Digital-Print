@@ -62,47 +62,47 @@ export default function CartPage() {
 
     return (
         <div className="container mx-auto py-8 md:py-12 animate-fade-in px-4 md:px-6">
-            <h1 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8">Shopping Cart</h1>
+            <h1 className="text-2xl md:text-4xl font-bold mb-4 md:mb-8">Shopping Cart</h1>
 
-            <div className="flex flex-col lg:grid lg:grid-cols-3 gap-8">
+            <div className="flex flex-col lg:grid lg:grid-cols-3 gap-6 md:gap-8">
 
-                <div className="lg:col-span-2 order-2 lg:order-1">
+                <div className="lg:col-span-2 order-1">
                     {cart.map((item, index) => (
-                        <Card key={index} className="flex gap-4 items-center mb-4">
-                            <div style={{ width: '100px', height: '100px', backgroundColor: 'var(--bg-color)', borderRadius: 'var(--radius-sm)', overflow: 'hidden', flexShrink: 0 }}>
+                        <Card key={index} className="flex flex-wrap sm:flex-nowrap gap-3 sm:gap-4 items-start sm:items-center mb-4 p-3 sm:p-4 relative">
+                            <div className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] flex-shrink-0 bg-[var(--bg-color)] rounded-[var(--radius-sm)] overflow-hidden">
                                 {item.image ? (
                                     <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                                 ) : (
-                                    <span className="flex items-center justify-center w-full h-full text-xs text-gray-400">No Image</span>
+                                    <span className="flex items-center justify-center w-full h-full text-[10px] sm:text-xs text-gray-400">No Image</span>
                                 )}
                             </div>
 
-                            <div className="flex-grow">
-                                <h3 className="font-bold text-lg mb-1">{item.name}</h3>
-                                <div className="text-sm text-secondary mb-2">
+                            <div className="flex-grow pr-8 sm:pr-0 w-full sm:w-auto mt-2 sm:mt-0 order-last sm:order-none">
+                                <h3 className="font-bold text-base sm:text-lg mb-1 leading-tight">{item.name}</h3>
+                                <div className="text-xs sm:text-sm text-secondary mb-1 sm:mb-2">
                                     <span className="font-semibold">Quantity:</span> {item.quantity}
                                     <br />
-                                    <span className="font-semibold text-xs opacity-70">Custom config applied</span>
+                                    <span className="font-semibold text-[10px] sm:text-xs opacity-70">Custom config applied</span>
                                 </div>
+                                <div className="font-bold text-lg sm:hidden mt-2 text-primary">€{item.totalPrice.toFixed(2)}</div>
                             </div>
 
-                            <div className="text-right mr-4">
+                            <div className="hidden sm:block text-right mr-2">
                                 <div className="font-bold text-xl">€{item.totalPrice.toFixed(2)}</div>
                             </div>
 
                             <button
                                 onClick={() => removeFromCart(index)}
-                                className="btn"
-                                style={{ color: 'var(--error-color)', padding: '0.5rem', border: 'none' }}
+                                className="absolute top-2 right-2 sm:relative sm:top-auto sm:right-auto text-[var(--error-color)] p-2 hover:bg-red-50 rounded-full transition-colors"
                                 title="Remove from cart"
                             >
-                                <Trash2 size={20} />
+                                <Trash2 size={18} className="sm:w-5 sm:h-5" />
                             </button>
                         </Card>
                     ))}
                 </div>
 
-                <div className="order-1 lg:order-2">
+                <div className="order-2">
                     <div className="card" style={{ position: 'sticky', top: '100px' }}>
                         <h3 className="font-bold text-xl mb-4 pb-4" style={{ borderBottom: '1px solid var(--border-color)' }}>Order Summary</h3>
 

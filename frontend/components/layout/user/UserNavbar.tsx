@@ -21,12 +21,17 @@ export const UserNavbar: React.FC = () => {
     const [searchResults, setSearchResults] = useState<any[]>([]);
     const [isSearching, setIsSearching] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [showMobileDropdown, setShowMobileDropdown] = useState(false);
     const searchRef = useRef<HTMLDivElement>(null);
+    const mobileSearchRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
                 setShowDropdown(false);
+            }
+            if (mobileSearchRef.current && !mobileSearchRef.current.contains(event.target as Node)) {
+                setShowMobileDropdown(false);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
@@ -42,6 +47,7 @@ export const UserNavbar: React.FC = () => {
 
         setIsSearching(true);
         setShowDropdown(true);
+        setShowMobileDropdown(true);
 
         const debounceTimer = setTimeout(async () => {
             try {
@@ -59,7 +65,7 @@ export const UserNavbar: React.FC = () => {
 
     return (
         <header className="navbar relative" suppressHydrationWarning>
-            <div className="container mx-auto px-4 md:px-0 flex items-center justify-between">
+            <div className="container mx-auto px-4 md:px-0 flex flex-wrap items-center justify-between py-2 md:py-0">
                 <Link href="/" className="nav-brand flex-shrink-0">
                     <img src="/logo.png" alt="SafoyanaPrint Logo" className="h-10 md:h-12 w-auto" />
                 </Link>
@@ -161,6 +167,55 @@ export const UserNavbar: React.FC = () => {
                         </button>
                     </div>
                 </nav>
+
+                {/* Mobile Search Bar (Takes full width below logo and icons) */}
+                <div className="md:hidden relative w-full order-last mt-3 mb-1" ref={mobileSearchRef}>
+                    <div className="relative flex items-center">
+                        <Search className="absolute left-3 text-gray-400" size={18} />
+                        <input 
+                            type="text"
+                            placeholder="Search products..."
+                            className="w-full bg-gray-50 border border-gray-200 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-primary focus:bg-white transition-all text-sm"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            onFocus={() => searchQuery.trim() && setShowMobileDropdown(true)}
+                        />
+                        {isSearching && <div className="absolute right-3 w-4 h-4 rounded-full border-2 border-primary border-t-transparent animate-spin"></div>}
+                    </div>
+
+                    {/* Mobile Search Dropdown */}
+                    {showMobileDropdown && (
+                        <div className="absolute top-full mt-2 left-0 w-full bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-50 max-h-80 overflow-y-auto">
+                            {searchResults.length === 0 && !isSearching ? (
+                                <div className="px-4 py-3 text-sm text-gray-500 text-center">No products found for "{searchQuery}"</div>
+                            ) : (
+                                searchResults.map(prod => (
+                                    <Link 
+                                        key={prod.id} 
+                                        href={`/products/${prod.id}`} 
+                                        className="flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors"
+                                        onClick={() => {
+                                            setShowMobileDropdown(false);
+                                            setSearchQuery('');
+                                        }}
+                                    >
+                                        <div className="w-10 h-10 rounded overflow-hidden bg-gray-100 flex-shrink-0">
+                                            {prod.images && prod.images.length > 0 ? (
+                                                <img src={prod.images[0]} alt={prod.name} className="w-full h-full object-cover" />
+                                            ) : (
+                                                <div className="w-full h-full bg-gray-200"></div>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <div className="font-semibold text-sm text-gray-900">{prod.name}</div>
+                                            <div className="text-xs text-primary font-bold">€{Number(prod.basePrice).toFixed(2)}</div>
+                                        </div>
+                                    </Link>
+                                ))
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
 
             {/* Mobile Dropdown Menu */}

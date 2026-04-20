@@ -28,11 +28,11 @@ export default function Home() {
         <>
             <section className="container py-8 md:py-12 text-center">
                 <div className="mx-auto text-center w-full py-8 md:py-12 px-4 md:px-0">
-                    <h1 className="font-bold mb-6 text-5xl md:text-[4.5rem] leading-tight" style={{ letterSpacing: '-0.04em' }}>
+                    <h1 className="font-bold mb-4 md:mb-6 text-4xl md:text-[4.5rem] leading-tight" style={{ letterSpacing: '-0.04em' }}>
                         Print that makes an <br className="hidden md:block" /><span style={{ color: 'var(--accent-color)' }}>impact.</span>
                     </h1>
                     <div className="flex justify-center w-full">
-                        <p className="text-lg md:text-xl mb-8 text-secondary px-4 md:px-0 text-center" style={{ maxWidth: '600px' }}>
+                        <p className="text-base md:text-xl mb-6 md:mb-8 text-secondary px-4 md:px-0 text-center" style={{ maxWidth: '600px' }}>
                             Professional grade digital printing for your business. From premium business cards to large format banners, we deliver exceptional quality at scale.
                         </p>
                     </div>
@@ -44,10 +44,10 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className="container mb-12">
-                <div className="card text-center py-10" style={{ backgroundColor: 'var(--surface-hover)' }}>
-                    <h2 className="text-3xl font-bold mb-4">Bring Your Ideas to Life</h2>
-                    <p className="text-secondary max-w-2xl mx-auto mb-6">
+            <section className="container mb-8 md:mb-12">
+                <div className="card text-center py-8 md:py-10 px-4 md:px-8" style={{ backgroundColor: 'var(--surface-hover)' }}>
+                    <h2 className="text-2xl md:text-3xl font-bold mb-3 md:mb-4">Bring Your Ideas to Life</h2>
+                    <p className="text-sm md:text-base text-secondary max-w-2xl mx-auto mb-6">
                         Whether you need promotional materials, office stationery, or personalized gifts, our advanced printing technology ensures vibrant colors and lasting impressions.
                     </p>
                     <div className="flex justify-center gap-6 text-sm font-semibold flex-wrap">
@@ -58,9 +58,9 @@ export default function Home() {
                 </div>
             </section>
 
-            <section className="container mb-12">
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold">Shop by Category</h2>
+            <section className="container mb-8 md:mb-12">
+                <div className="flex items-center justify-between mb-4 md:mb-6">
+                    <h2 className="text-xl md:text-2xl font-bold">Shop by Category</h2>
                 </div>
 
                 {loadingCats ? (
@@ -68,7 +68,7 @@ export default function Home() {
                 ) : categories.length === 0 ? (
                     <div className="text-center py-6 text-secondary">No categories available at the moment.</div>
                 ) : (
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                         {categories.map((cat) => (
                             <Link href={`/categories/${cat.slug || cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`} key={cat.id} className="card text-center cursor-pointer transition-transform hover:-translate-y-1">
                                 <div
@@ -99,9 +99,9 @@ export default function Home() {
                 )}
             </section>
 
-            <section className="container my-12">
-                <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold">Featured Products</h2>
+            <section className="container my-8 md:my-12">
+                <div className="flex items-center justify-between mb-4 md:mb-6">
+                    <h2 className="text-xl md:text-2xl font-bold">Featured Products</h2>
                     <Link href="/products" className="text-primary font-semibold text-sm hover:underline flex items-center">
                         View All <ArrowRight size={16} className="ml-1" />
                     </Link>
@@ -151,8 +151,8 @@ export default function Home() {
                 )}
             </section>
 
-            <section className="py-12 mt-auto" style={{ backgroundColor: 'var(--surface-color)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
-                <div className="container flex flex-col md:grid md:grid-cols-3 gap-8 text-center">
+            <section className="py-8 md:py-12 mt-auto" style={{ backgroundColor: 'var(--surface-color)', borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
+                <div className="container flex flex-col md:grid md:grid-cols-3 gap-6 md:gap-8 text-center">
                     <div style={{ padding: 'var(--space-4)' }}>
                         <div className="mb-4 text-3xl font-bold flex justify-center text-primary">⏱️</div>
                         <h4 className="font-bold text-xl mb-2">Fast Turnaround</h4>
