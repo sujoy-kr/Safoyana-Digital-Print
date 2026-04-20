@@ -35,9 +35,8 @@ export default function CartPage() {
         try {
             const res = await ordersApi.create(orderPayload);
             if (res) {
-                alert("Order successfully placed!");
                 clearCart();
-                router.push('/profile');
+                router.push(`/order-success?orderId=${res.id}`);
             } else {
                 alert("Checkout Failed");
             }
