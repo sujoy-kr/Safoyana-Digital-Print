@@ -34,4 +34,4 @@ The **NestJS backend** handles complex business logic with scalability in mind. 
 
 - Node.js (v18 or higher recommended)
 - PostgreSQL
-- npm or yarn
+- npm
